@@ -145,4 +145,4 @@ union {
 
 object { stars }
 object { table }
-object { planetCase translate <0, -2, 0> rotate 360 * clock * y } 
+object { planetCase translate <0, -2, 0> } 
