@@ -75,10 +75,10 @@ union {
 #end
 
 #declare planetStick = union {
-    cylinder  { <0, 0, -50> <0, 0, 3>, 0.2 }
+    cylinder  { <0, 0, -50> <0, 0, 5>, 0.2 }
     pigment { DMFWood4 scale 4 }
     finish { phong 1 }
-    rotate x * 90
+    rotate 90 * x
 }
 
 #declare planetKebab = union {
@@ -93,6 +93,10 @@ union {
         object { planet(Blue) scale <1.2, 1.2, 1.2> translate <0, 42.5, 0> }
         object { planetStick }
     }
+    translate <0, -25, 0>
+    rotate 20 * z
+    rotate 360 * clock * y
+    translate <0, 25, 0>
 }
 
 // ----------------------------------------------------
