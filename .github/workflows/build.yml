@@ -30,7 +30,7 @@ jobs:
             -v ${{ github.workspace }}/images:/output \
             local/povray:latest \
             /source/Stellar.ini \
-            +W512 +H384 \
+            +W800 +H600 \
             +FN \
             Output_File_Name=/output/Stellar-
 
