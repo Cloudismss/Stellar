@@ -39,7 +39,7 @@ RUN apk add --update --no-cache \
 	cd /povray && \
 	./configure COMPILED_BY="Docker\n jmaxwilson/povray:3.7-stable\n https://cloud.docker.com/repository/docker/jmaxwilson/povray" && \
 	echo "typedef unsigned int uint;" > uint-hack.h && \
-	make CPPFLAGS="-include uint-hack.h -I/usr/include/OpenEXR" && \
+	make CPPFLAGS="-include /povray/uint-hack.h -I/usr/include/OpenEXR" && \
 	make install && \
 	cd / && \
 	rm -rf /povray && \
