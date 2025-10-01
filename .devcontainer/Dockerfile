@@ -28,8 +28,8 @@ RUN apk add --update --no-cache \
 	zlib-dev \
 	libpng-dev \
 	tiff-dev \
-	sdl-dev \
-	ilmbase-dev \
+	sdl2-dev \
+	imath-dev \
 	openexr-dev && \
 	git clone https://github.com/POV-Ray/povray.git && \
 	cd /povray && \
@@ -56,16 +56,16 @@ RUN apk add --update --no-cache \
 	zlib-dev \
 	libpng-dev \
 	tiff-dev \
-	sdl-dev \
-	ilmbase-dev \
+	sdl2-dev \
+	imath-dev \
 	openexr-dev && \
 	apk add --no-cache \
 	boost \
 	zlib \
 	libpng \
 	tiff \
-	sdl \
-	ilmbase \
+	sdl2 \
+	imath \
 	openexr && \
 	rm -rf /var/cache/apk* && \
 	mkdir /source && \
