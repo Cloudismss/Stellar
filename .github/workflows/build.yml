@@ -1,0 +1,53 @@
+name: Build POV-Ray Image
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build POV-Ray Docker Image
+        run: docker build -t local/povray:latest .devcontainer
+
+      - name: Create Output Directory
+        run: mkdir -p images
+
+      - name: Render Image with POV-Ray
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/source \
+            -v ${{ github.workspace }}/images:/output \
+            local/povray:latest \
+            /source/Stellar.ini \
+            +W512 +H384 \
+            +FN \
+            Output_File_Name=/output/Stellar-
+
+      - name: Generate gif
+        run: | 
+          ffmpeg -i images/Stellar-%02d.png -vf "palettegen" images/palette.png && \
+          ffmpeg -framerate 24 -i images/Stellar-%02d.png -i images/palette.png  -filter_complex "paletteuse" Stellar.gif
+
+      - name: Commit and push updated GIF
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add Stellar.gif
+          # Commit only if there are changes
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: Update rendered Stellar.gif"
+            git push
+          else
+            echo "No changes to commit."
+          fi
