@@ -1,0 +1,6 @@
+{
+	"name": "POV-Ray Environment",
+	"build": {
+		"dockerfile": "Dockerfile"
+	}
+}

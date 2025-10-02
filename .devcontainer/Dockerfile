@@ -1,23 +1,27 @@
 FROM ubuntu:latest
 
-# Source - https://github.com/jmaxwilson/docker-povray/blob/master/ubuntu/Dockerfile
-
-# Make sure we are up-to-date
-# Install the povray binary for Ubuntu
-# Create the source directory to be the WORKDIR during execution
-# Create the output directory to allow output to go to a different directory
+# Install dependencies
 RUN apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y autoclean && \
-    apt-get -y autoremove && \
-    apt-get -y install povray && \
-    apt-get -y purge && \
-    mkdir /source && \
-    mkdir /output
+    apt-get -y install --no-install-recommends git ffmpeg
 
-# Set the WORKDIR to /source 
-# (the directory containing the .POV source files should be mounted here)
+# Build POV-Ray
+RUN apt-get -y install build-essential autoconf libboost-dev libboost-date-time-dev libboost-thread-dev zlib1g-dev libpng-dev libjpeg8-dev libtiff5-dev libopenexr-dev && \
+    mkdir build && \
+    cd build && \
+    git config --global http.sslverify false && \
+    git clone --branch latest-stable --single-branch https://github.com/POV-Ray/povray.git && \
+    cd povray/unix/ && \
+    chmod +x prebuild.sh && \
+    ./prebuild.sh && \
+    cd ../ && \
+    ./configure COMPILED_BY="Dockerfile" && \
+    make && \
+    make install && \
+    cd ../
+
+# Cleanup
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /source /output
+
 WORKDIR /source
-
-# Set the entrypoint to run povray
-ENTRYPOINT ["povray"]
