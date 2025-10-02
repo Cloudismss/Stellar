@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - '**'
+    paths:
+      - 'Stellar.pov'
+      - 'Stellar.ini'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 jobs:
