@@ -53,7 +53,7 @@ jobs:
           git add Stellar.gif
           # Commit only if there are changes
           if ! git diff --staged --quiet; then
-            git commit -m "chore: Update rendered Stellar.gif"
+            git commit -m "Action: Render Stellar.gif"
             git push
           else
             echo "No changes to commit."
