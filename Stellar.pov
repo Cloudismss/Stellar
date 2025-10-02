@@ -117,6 +117,15 @@ union {
         texture { White_Marble }
     }
 
+#declare caseRing = difference {
+    torus { 10, 0.25 }
+    box {
+        <-12, 0, -12>,
+        <12, 0.25, 12>
+    }
+    texture { Silver1 }
+}
+
 #declare glass =
     texture {
         pigment { rgbf <0.98, 1.0, 0.99, 0.75> }
@@ -145,8 +154,14 @@ union {
     object { planetKebab translate <0 , 6, 0> } 
 }
 
+#declare stellar = difference {
+    object { planetCase }
+    object { caseRing translate <0, 3, 0> }
+    object { caseRing translate <0, 53, 0> rotate 180 * y }
+}
+
 // ----------------------------------------------------
 
 object { stars }
 object { table }
-object { planetCase translate <0, -2, 0> } 
+object { stellar translate <0, -2, 0> }
