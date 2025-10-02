@@ -42,9 +42,7 @@ jobs:
         run: sudo apt-get install -y ffmpeg
 
       - name: Generate gif
-        run: | 
-          ffmpeg -i images/Stellar-%02d.png -vf "palettegen" images/palette.png && \
-          ffmpeg -y -framerate 24 -i images/Stellar-%02d.png -i images/palette.png -filter_complex "paletteuse" Stellar.gif
+        run: ffmpeg -y -framerate 24 -i images/Stellar-%02d.png -filter_complex "[0:v] palettegen [p]; [0:v][p] paletteuse" Stellar.gif
 
       - name: Commit and push updated GIF
         run: |
