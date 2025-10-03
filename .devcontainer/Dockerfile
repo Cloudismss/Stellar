@@ -29,7 +29,7 @@ RUN apk add --update --no-cache \
 		POVCONF=/etc/povray/3.8/povray.conf \
 		--prefix=/usr \
 		--sysconfdir=/etc && \
-	make CXXFLAGS+='-std=c++11 -DBOOST_BIND_GLOBAL_PLACEHOLDERS=1 -D_LARGEFILE64_SOURCE=1 -I/usr/include/OpenEXR -I/usr/include/Imath' && \
+	make CXXFLAGS+='-std=c++17 -DBOOST_BIND_GLOBAL_PLACEHOLDERS=1 -D_LARGEFILE64_SOURCE=1 -I/usr/include/OpenEXR -I/usr/include/Imath' && \
 	make install DESTDIR=/povray/dist
 
 # --- Final Stage ---
