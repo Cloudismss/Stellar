@@ -43,7 +43,7 @@ RUN apk add --no-cache --virtual .runtime-deps shadow \
 	# Add runtime dependencies
 	boost zlib libpng tiff sdl2 imath openexr ffmpeg && \
 	# Configure the default display gamma
-	echo -e "\nDisplay_Gamma=sRGB" >> /etc/povray/3.7/povray.conf && \
+	echo -e "\nDisplay_Gamma=2.2" >> /etc/povray/3.7/povray.conf && \
 	# Remove the default scenes to save space
 	rm -rf /usr/local/share/povray-3.7/scenes && \
 	# Create directories for mounting source and output
