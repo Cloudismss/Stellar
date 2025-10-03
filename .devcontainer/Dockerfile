@@ -22,14 +22,13 @@ RUN apk add --update --no-cache \
 	cd /povray/unix && \
 	./prebuild.sh && \
 	cd /povray && \
-	./bootstrap && \
 	./configure \
 		COMPILED_BY="Dockerfile" \
 		LIBS="-lboost_system -lboost_thread" \
+		CXXFLAGS="-std=c++17 -fno-finite-math-only -D_LARGEFILE64_SOURCE=1 -I/usr/include/OpenEXR -I/usr/include/Imath" \
 		POVCONF=/etc/povray/3.8/povray.conf \
-		--prefix=/usr \
+		--prefix=/usr/local \
 		--sysconfdir=/etc && \
-	make CXXFLAGS+='-std=c++17 -DBOOST_BIND_GLOBAL_PLACEHOLDERS=1 -D_LARGEFILE64_SOURCE=1 -I/usr/include/OpenEXR -I/usr/include/Imath' && \
 	make install DESTDIR=/povray/dist
 
 # --- Final Stage ---
@@ -40,17 +39,16 @@ RUN apk add --no-cache \
 	boost zlib libpng tiff sdl2 imath openexr ffmpeg
 
 # Copy the compiled POV-Ray binary and assets from the builder stage
-COPY --from=builder /povray/dist/usr/bin/povray /usr/bin/povray
-COPY --from=builder /povray/dist/usr/share/povray-3.8 /usr/share/povray-3.8
-COPY --from=builder /povray/dist/etc/povray/3.8/povray.conf /etc/povray/3.8/povray.conf
-COPY --from=builder /povray/dist/etc/povray/3.8/povray.ini /etc/povray/3.8/povray.ini
+COPY --from=builder /povray/dist/usr/local/bin/povray /usr/local/bin/povray
+COPY --from=builder /povray/dist/usr/local/share/povray-3.8 /usr/local/share/povray-3.8
+COPY --from=builder /povray/dist/etc/povray/3.8/povray.conf /usr/local/etc/povray/3.8/povray.conf
+COPY --from=builder /povray/dist/etc/povray/3.8/povray.ini /usr/local/etc/povray/3.8/povray.ini
 
 # Configure the default display gamma and library paths to match official binaries
-RUN sed -i 's|;Display_Gamma=sRGB|Display_Gamma=sRGB|' /etc/povray/3.8/povray.conf && \
-    sed -i 's|;Library_Path=/usr/local/share/povray-3.8|Library_Path=/usr/share/povray-3.8|' /etc/povray/3.8/povray.conf
+RUN echo -e "\nDisplay_Gamma=sRGB" >> /usr/local/etc/povray/3.8/povray.conf
 
 # Remove the default scenes to save space
-RUN rm -rf /usr/share/povray-3.8/scenes
+RUN rm -rf /usr/local/share/povray-3.8/scenes
 
 # Create directories for mounting source and output
 RUN mkdir /source && mkdir /output
