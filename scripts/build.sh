@@ -26,7 +26,7 @@ fi
 echo "--- Running generation script inside Docker ---"
 # Ensure the scripts are executable
 chmod +x "$(dirname "$0")/gif.sh" "$(dirname "$0")/png.sh"
-docker run --rm -v "$PWD:/source" -e FILE_NAME="$FILE_NAME" "$IMAGE_NAME" /bin/sh -c '
+docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/source" -e FILE_NAME="$FILE_NAME" "$IMAGE_NAME" /bin/sh -c '
   if ls *.ini >/dev/null 2>&1; then
     echo "--- generating GIF ---"
     scripts/gif.sh
