@@ -4,7 +4,6 @@ set -e
 cd "$(dirname "$0")/.."
 
 echo "--- Cleaning up build artifacts ---"
-mkdir -p images
 rm -f images/*.png
 rm -f Stellar.gif
 
