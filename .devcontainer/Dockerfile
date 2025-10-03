@@ -39,7 +39,7 @@ FROM alpine:latest
 # Copy the compiled POV-Ray binary and assets from the builder stage
 COPY --from=builder /povray/dist/ /
 
-RUN apk add --no-cache --virtual .runtime-deps \
+RUN apk add --no-cache --virtual .runtime-deps shadow \
 	# Add runtime dependencies
 	boost zlib libpng tiff sdl2 imath openexr ffmpeg && \
 	# Configure the default display gamma
@@ -48,8 +48,14 @@ RUN apk add --no-cache --virtual .runtime-deps \
 	rm -rf /usr/local/share/povray-3.7/scenes && \
 	# Create directories for mounting source and output
 	mkdir /source && mkdir /output && \
+	# Create a non-root user for security and to fix permissions
+	useradd -m povray && \
+	chown -R povray:povray /source /output && \
 	# Clean up apk cache
 	rm -rf /var/cache/apk/*
 
 # Set the WORKDIR to /source (the directory containing the .POV source files should be mounted here)
 WORKDIR /source
+
+# Switch to the non-root user
+USER povray
