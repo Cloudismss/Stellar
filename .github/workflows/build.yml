@@ -22,8 +22,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Add Execute Permissions
+        run: chmod +x scripts/build.sh scripts/gif.sh
+
       - name: Build and Generate GIF
-        run: bash scripts/build.sh
+        run: scripts/build.sh
 
       - name: Commit and Push Updated GIF
         run: |
@@ -31,7 +34,7 @@ jobs:
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add Stellar.gif
           if ! git diff --staged --quiet; then
-            git commit -m "Action: Render Stellar.gif"
+            git commit -m "CD - Render Stellar.gif"
             git push
           else
             echo "No changes to commit."
