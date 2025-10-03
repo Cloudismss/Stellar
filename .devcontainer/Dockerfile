@@ -1,8 +1,9 @@
 FROM alpine:latest AS builder
 
 # --- Builder Stage ---
-# Install build dependencies, clone, and compile POV-Ray
-RUN apk add --update --no-cache \
+# Install build dependencies, clone, and compile POV-Ray in a single layer
+# Use a virtual package to make cleanup easy
+RUN apk add --no-cache --virtual .build-deps \
 	git \
 	coreutils \
 	build-base \
@@ -16,9 +17,7 @@ RUN apk add --update --no-cache \
 	sdl2-dev \
 	imath-dev \
 	openexr-dev && \
-	git clone https://github.com/POV-Ray/povray.git && \
-	cd /povray && \
-	git checkout release/v3.7.0 && \
+	git clone --depth 1 --branch release/v3.7.0 https://github.com/POV-Ray/povray.git /povray && \
 	cd /povray/unix && \
 	./prebuild.sh && \
 	cd /povray && \
@@ -29,29 +28,28 @@ RUN apk add --update --no-cache \
 		POVCONF=/etc/povray/3.7/povray.conf \
 		--prefix=/usr/local \
 		--sysconfdir=/etc && \
-	make install DESTDIR=/povray/dist
+	make install DESTDIR=/povray/dist && \
+	apk del .build-deps && \
+	rm -rf /var/cache/apk/*
 
 # --- Final Stage ---
 # Create a minimal final image with only runtime dependencies
 FROM alpine:latest
 
-RUN apk add --no-cache \
-	boost zlib libpng tiff sdl2 imath openexr ffmpeg
-
 # Copy the compiled POV-Ray binary and assets from the builder stage
-COPY --from=builder /povray/dist/usr/local/bin/povray /usr/local/bin/povray
-COPY --from=builder /povray/dist/usr/local/share/povray-3.7 /usr/local/share/povray-3.7
-COPY --from=builder /povray/dist/etc/povray/3.7/povray.conf /usr/local/etc/povray/3.7/povray.conf
-COPY --from=builder /povray/dist/etc/povray/3.7/povray.ini /usr/local/etc/povray/3.7/povray.ini
+COPY --from=builder /povray/dist/ /
 
-# Configure the default display gamma and library paths to match official binaries
-RUN echo -e "\nDisplay_Gamma=sRGB" >> /usr/local/etc/povray/3.7/povray.conf
-
-# Remove the default scenes to save space
-RUN rm -rf /usr/local/share/povray-3.7/scenes
-
-# Create directories for mounting source and output
-RUN mkdir /source && mkdir /output
+RUN apk add --no-cache --virtual .runtime-deps \
+	# Add runtime dependencies
+	boost zlib libpng tiff sdl2 imath openexr ffmpeg && \
+	# Configure the default display gamma
+	echo -e "\nDisplay_Gamma=sRGB" >> /etc/povray/3.7/povray.conf && \
+	# Remove the default scenes to save space
+	rm -rf /usr/local/share/povray-3.7/scenes && \
+	# Create directories for mounting source and output
+	mkdir /source && mkdir /output && \
+	# Clean up apk cache
+	rm -rf /var/cache/apk/*
 
 # Set the WORKDIR to /source (the directory containing the .POV source files should be mounted here)
 WORKDIR /source
