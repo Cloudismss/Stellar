@@ -1,14 +1,8 @@
 set -e
-
+ 
 # Ensure the script runs from the project root directory (one level up from 'scripts')
 cd "$(dirname "$0")/.."
-
-FILE_NAME="Stellar"
-
-echo "--- Cleaning up build artifacts ---"
-rm -f images/*.png
-rm -f $FILE_NAME.gif
-
+ 
 echo "--- Rendering with POV-Ray --- "
 povray $FILE_NAME.ini \
   +W800 +H600 \
