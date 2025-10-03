@@ -3,7 +3,7 @@ set -e
 # This script provides a consistent way to build the GIF locally
 # using the same Docker environment as the GitHub Actions workflow.
 
-IMAGE_NAME="stellar"
+IMAGE_NAME="povray"
 
 echo "--- Building Docker image: $IMAGE_NAME ---"
 docker build -t "$IMAGE_NAME" .devcontainer
