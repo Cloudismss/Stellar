@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Add Execute Permissions
-        run: chmod +x scripts/build.sh scripts/gif.sh
+        run: chmod +x scripts/build.sh
 
       - name: Build and Generate GIF
         run: scripts/build.sh
