@@ -24,7 +24,7 @@ This project is meant to serve as a template for automating POV-Ray build proces
 - `scripts/build.sh`
 - Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`.
 
-## Step 2 (Option B) - Builing Locally with POV-Ray
+## Step 2 (Option B) - Building Locally with POV-Ray
 
 - Optionally build and run a VSCode or GitHub Codespace container using the provided `devcontainer.json`
 - `chmod +x scripts/gif.sh scripts/png.sh`
