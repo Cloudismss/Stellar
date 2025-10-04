@@ -1,13 +1,14 @@
 set -e
 
+# Ensure the script runs from the project root directory (one level up from 'scripts')
+cd "$(dirname "$0")/.."
+
 # Source the configuration file
-source "$(dirname "$0")/build.conf"
+source "scripts/build.conf"
 
 echo "--- Cleaning up build artifacts ---"
-mkdir -p images
-rm -f images/*.png
-rm -f *.png
-rm -f *.gif
+rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
 
 if [ "$BUILD_IMAGE" = "true" ]; then
   echo "--- Building Docker image: $IMAGE_NAME ---"
@@ -19,8 +20,8 @@ else
 fi
 
 echo "--- Running generation script inside Docker ---"
-chmod +x "$(dirname "$0")/gif.sh" "$(dirname "$0")/png.sh"
-docker run --rm -v "$PWD:/source" "$IMAGE_NAME" /bin/sh -c '
+chmod +x "scripts/gif.sh" "scripts/png.sh"
+docker run --rm -v "$PWD:/source" -v "$PWD/$OUTPUT_DIR:/output" -e OUTPUT_DIR="/output" "$IMAGE_NAME" /bin/sh -c '
   if ls *.ini >/dev/null 2>&1; then
     echo "--- generating GIF ---"
     scripts/gif.sh

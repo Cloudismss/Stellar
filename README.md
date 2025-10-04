@@ -2,7 +2,7 @@
 
 A raytraced Computer Graphics animation built in [POV-Ray](https://www.povray.org/) with GitHub Actions support
 
-![Stellar](./Stellar.gif)
+![Stellar](./out/Stellar.gif)
 
 # Project Template
 
@@ -10,7 +10,8 @@ This project is meant to serve as a template for automating POV-Ray build proces
 
 ## Step 1 - Configuration - `scripts/build.conf`
 
-- Change the `FILE_NAME` variable to set the output file name
+- Change the `OUTPUT_FILE_NAME` variable to set the output file name
+- Customize the output directory with the `OUTPUT_DIR` variable.
 - Adjust the output resolution using `OUTPUT_W` and `OUTPUT_H`
 - If utilitzing the Docker option in Step 2:
   - Choose whether or not to build the provided `Dockerfile` by setting the `BUILD_IMAGE` variable
@@ -21,6 +22,7 @@ This project is meant to serve as a template for automating POV-Ray build proces
 - Install Docker
 - `chmod +x scripts/build.sh`
 - `scripts/build.sh`
+- Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`.
 
 ## Step 2 (Option B) - Builing Locally with POV-Ray
 
@@ -28,6 +30,7 @@ This project is meant to serve as a template for automating POV-Ray build proces
 - `chmod +x scripts/gif.sh scripts/png.sh`
 - `scripts/gif.sh` to generate a .gif from an .ini file
 - `scripts/png.sh` to generate a .png from a .pov file
+- Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`.
 
 ## Step 3 (Optional) - Enable GitHub Actions
 

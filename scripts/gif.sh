@@ -3,16 +3,18 @@ set -e
 # Ensure the script runs from the project root directory (one level up from 'scripts')
 cd "$(dirname "$0")/.."
 
-# Source the configuration file to get FILE_NAME
+# Source the configuration file
 source "scripts/build.conf"
  
+mkdir -p "$OUTPUT_DIR/images"
+
 echo "--- Rendering with POV-Ray --- "
-povray $FILE_NAME.ini \
+povray $OUTPUT_FILE_NAME.ini \
   $OUTPUT_W $OUTPUT_H \
   +FN \
-  Output_File_Name=images/$FILE_NAME-
+  Output_File_Name=$OUTPUT_DIR/images/$OUTPUT_FILE_NAME-
 
 echo "--- Generating gif with ffmpeg---"
-ffmpeg -y -framerate 24 -i images/$FILE_NAME-%02d.png -filter_complex "[0:v] palettegen [p]; [0:v][p] paletteuse" $FILE_NAME.gif
+ffmpeg -y -framerate 24 -i $OUTPUT_DIR/images/$OUTPUT_FILE_NAME-%02d.png -filter_complex "[0:v] palettegen [p]; [0:v][p] paletteuse" $OUTPUT_DIR/$OUTPUT_FILE_NAME.gif
 
-echo "--- $FILE_NAME.gif created ---"
+echo "--- $OUTPUT_DIR/$OUTPUT_FILE_NAME.gif created ---"

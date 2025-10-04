@@ -29,9 +29,10 @@ jobs:
 
       - name: Commit and Push Updated GIF
         run: |
+          source scripts/build.conf
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add *.gif *.png
+          git add $OUTPUT_DIR/*.gif $OUTPUT_DIR/*.png
           if ! git diff --staged --quiet; then
             git commit -m "CD - Render task"
             git push
