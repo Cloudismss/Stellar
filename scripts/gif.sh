@@ -1,5 +1,5 @@
 set -e
- 
+
 # Ensure the script runs from the project root directory (one level up from 'scripts')
 cd "$(dirname "$0")/.."
  
