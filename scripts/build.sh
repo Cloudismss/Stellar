@@ -4,7 +4,6 @@ set -e
 # using the same Docker environment as the GitHub Actions workflow.
 
 IMAGE_NAME="povray"
-FILE_NAME="Stellar"
 
 # Source the configuration file
 source "$(dirname "$0")/build.conf"
@@ -20,7 +19,7 @@ if [ "$BuildImage" = "true" ]; then
   docker build -t "$IMAGE_NAME" .devcontainer
 else
   echo "--- Pulling Docker image: cloudisms/povray:latest ---"
-  docker pull cloudisms/povray:latest
+  docker pull --platform=linux/amd64 cloudisms/povray:latest
   docker tag cloudisms/povray:latest "$IMAGE_NAME"
 fi
 
