@@ -1,4 +1,7 @@
 {
 	"name": "POV-Ray Environment",
-	"image": "cloudisms/povray:latest"
+	"image": "cloudisms/povray:latest",
+	"runArgs": [
+		"--platform=linux/amd64"
+	]
 }
