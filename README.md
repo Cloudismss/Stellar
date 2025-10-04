@@ -1,6 +1,6 @@
 # Stellar
 
-A raytraced Computer Graphics animation built in [POV-Ray](https://www.povray.org/) with GitHub Actions support
+A raytraced Computer Graphics animation built in [POV-Ray](https://www.povray.org/).
 
 ![Stellar](./out/Stellar.gif)
 
@@ -22,7 +22,7 @@ This project is meant to serve as a template for automating POV-Ray build proces
 - Install Docker
 - `chmod +x scripts/build.sh`
 - `scripts/build.sh`
-- Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`.
+- Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`
 
 ## Step 2 (Option B) - Building Locally with POV-Ray
 
@@ -30,10 +30,10 @@ This project is meant to serve as a template for automating POV-Ray build proces
 - `chmod +x scripts/gif.sh scripts/png.sh`
 - `scripts/gif.sh` to generate a `.gif` from an `.ini` file
 - `scripts/png.sh` to generate a `.png` from a `.pov` file
-- Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`.
+- Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`
 
 ## Step 2 (Option C) - Building in the Cloud with GitHub Actions
 
 - Activate Actions on your GitHub Repository `Actions` page
-- The build action will run when any `.pov` or `.ini` file is modified in a commit
-- The build action can manually be triggered via `Actions -> Build POV-Ray Image -> Run workflow`
+- The build action will run when any root `.pov` or `.ini` file is modified in a pushed commit
+- The build action can be manually triggered via `Actions -> Build POV-Ray Image -> Run workflow`
