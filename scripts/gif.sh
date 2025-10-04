@@ -8,7 +8,7 @@ source "scripts/build.conf"
  
 echo "--- Rendering with POV-Ray --- "
 povray $FILE_NAME.ini \
-  +W800 +H600 \
+  $OUTPUT_W $OUTPUT_H \
   +FN \
   Output_File_Name=images/$FILE_NAME-
 

@@ -8,10 +8,13 @@ A raytraced Computer Graphics animation built in [POV-Ray](https://www.povray.or
 
 This project is meant to serve as a template for automating POV-Ray build processes via local installations of POV-Ray, Docker, or GitHub Actions.
 
-## Step 1 - Configuration
+## Step 1 - Configuration - `scripts/build.conf`
 
-- If building via Docker in Step 2, choose whether or not to build the `Dockerfile` by setting the variable in `scripts/build.conf`
-- Change the `FILE_NAME` to determine the output file name in `scripts/build.conf`
+- Change the `FILE_NAME` variable to set the output file name
+- Adjust the output resolution using `OUTPUT_W` and `OUTPUT_H`
+- If utilitzing the Docker option in Step 2:
+  - Choose whether or not to build the provided `Dockerfile` by setting the `BUILD_IMAGE` variable
+  - Optionally set the name of the docker image to be built with `IMAGE_NAME`
 
 ## Step 2 (Option A) - Building Locally with Docker
 
