@@ -8,6 +8,7 @@ on:
       - 'Stellar.pov'
       - 'Stellar.ini'
       - 'scripts/build.sh'
+      - 'scripts/build.conf'
       - 'scripts/gif.sh'
   workflow_dispatch:
 
