@@ -1,23 +1,53 @@
-FROM ubuntu:latest
+FROM alpine:latest AS builder
 
-# Source - https://github.com/jmaxwilson/docker-povray/blob/master/ubuntu/Dockerfile
+# --- Builder Stage ---
+# Install build dependencies, clone, and compile POV-Ray in a single layer
+# Use a virtual package to make cleanup easy
+RUN apk add --no-cache --virtual .build-deps \
+	git \
+	coreutils \
+	build-base \
+	autoconf \
+	automake \
+	bash \
+	boost-dev \
+	zlib-dev \
+	libpng-dev \
+	tiff-dev \
+	sdl2-dev \
+	imath-dev \
+	openexr-dev && \
+	git clone --depth 1 --branch release/v3.7.0 https://github.com/POV-Ray/povray.git /povray && \
+	cd /povray/unix && \
+	./prebuild.sh && \
+	cd /povray && \
+	./configure \
+		COMPILED_BY="Dockerfile" \
+		LIBS="-lboost_system -lboost_thread" \
+		CXXFLAGS="-std=c++17 -fno-finite-math-only -D_LARGEFILE64_SOURCE=1 -I/usr/include/OpenEXR -I/usr/include/Imath" \
+		POVCONF=/etc/povray/3.7/povray.conf \
+		--prefix=/usr/local \
+		--sysconfdir=/etc && \
+	make install DESTDIR=/povray/dist && \
+	apk del .build-deps && \
+	rm -rf /var/cache/apk/*
 
-# Make sure we are up-to-date
-# Install the povray binary for Ubuntu
-# Create the source directory to be the WORKDIR during execution
-# Create the output directory to allow output to go to a different directory
-RUN apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y autoclean && \
-    apt-get -y autoremove && \
-    apt-get -y install povray && \
-    apt-get -y purge && \
-    mkdir /source && \
-    mkdir /output
+# --- Final Stage ---
+# Create a minimal final image with only runtime dependencies
+FROM alpine:latest
 
-# Set the WORKDIR to /source 
-# (the directory containing the .POV source files should be mounted here)
+# Copy the compiled POV-Ray binary and assets from the builder stage
+COPY --from=builder /povray/dist/ /
+
+RUN apk add --no-cache --virtual .runtime-deps \
+	# Add runtime dependencies
+	boost zlib libpng tiff sdl2 imath openexr ffmpeg && \
+	# Remove the default scenes to save space
+	rm -rf /usr/local/share/povray-3.7/scenes && \
+	# Create directories for mounting source and output
+	mkdir /source && mkdir /output && \
+	# Clean up apk cache
+	rm -rf /var/cache/apk/*
+
+# Set the WORKDIR to /source (the directory containing the .POV source files should be mounted here)
 WORKDIR /source
-
-# Set the entrypoint to run povray
-ENTRYPOINT ["povray"]

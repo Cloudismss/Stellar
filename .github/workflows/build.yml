@@ -7,6 +7,8 @@ on:
     paths:
       - 'Stellar.pov'
       - 'Stellar.ini'
+      - 'scripts/build.sh'
+      - 'scripts/build.conf'
       - 'scripts/gif.sh'
   workflow_dispatch:
 
@@ -21,26 +23,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Build POV-Ray Docker Image
-        run: docker build -t local/povray:latest .devcontainer
+      - name: Add Execute Permissions
+        run: chmod +x scripts/build.sh
 
-      - name: Install ffmpeg
-        run: sudo apt-get install -y ffmpeg
+      - name: Build and Generate GIF
+        run: scripts/build.sh
 
-      - name: Make script executable
-        run: chmod +x scripts/gif.sh
-
-      - name: Generate GIF
-        run: scripts/gif.sh
-
-      - name: Commit and push updated GIF
+      - name: Commit and Push Updated GIF
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add Stellar.gif
-          # Commit only if there are changes
           if ! git diff --staged --quiet; then
-            git commit -m "Action: Render Stellar.gif"
+            git commit -m "CD - Render Stellar.gif"
             git push
           else
             echo "No changes to commit."

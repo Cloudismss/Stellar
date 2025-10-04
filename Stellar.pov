@@ -1,3 +1,5 @@
+#version 3.7;
+
 #include "colors.inc"
 #include "textures.inc"
 
@@ -28,7 +30,7 @@ light_source { <100, 45, 45> White }
                 }
             scale .015
             }
-            finish { ambient 1 }
+            finish { emission 1 }
         }
         scale 1000 
     } 
@@ -74,25 +76,23 @@ union {
 }
 #end
 
-#declare planetStick = union {
-    cylinder  { <0, 0, -50> <0, 0, 5>, 0.2 }
+#declare planetStick = cylinder  {
+    <0, 0, -50>, <0, 0, 5>, 0.2
     pigment { DMFWood4 scale 4 }
     finish { phong 1 }
     rotate 90 * x
 }
 
-#declare planetKebab = union {
-    merge {
-        object { planet(Brown) scale <0.3, 0.3, 0.3> }
-        object { planet(Copper) scale <0.6, 0.6, 0.6> translate <0, 2, 0> }
-        object { planet(MediumBlue) scale <0.7, 0.7, 0.7> translate <0, 5, 0> }
-        object { planet(Maroon) scale <0.6, 0.6, 0.6> translate <0, 8, 0> }
-        object { planet(Coral) scale <3.0, 3.0, 3.0> translate <0, 16, 0> }
-        object { planetRing(Sienna) scale <2.5, 2.5, 2.5> translate <0, 28, 0> }
-        object { planet(SummerSky) scale <1.2, 1.2, 1.2> translate <0, 36.5, 0> }
-        object { planet(Blue) scale <1.2, 1.2, 1.2> translate <0, 42.5, 0> }
-        object { planetStick }
-    }
+#declare planetKebab = merge {
+    object { planet(Brown) scale <0.3, 0.3, 0.3> }
+    object { planet(Copper) scale <0.6, 0.6, 0.6> translate <0, 2, 0> }
+    object { planet(MediumBlue) scale <0.7, 0.7, 0.7> translate <0, 5, 0> }
+    object { planet(Maroon) scale <0.6, 0.6, 0.6> translate <0, 8, 0> }
+    object { planet(Coral) scale <3.0, 3.0, 3.0> translate <0, 16, 0> }
+    object { planetRing(Sienna) scale <2.5, 2.5, 2.5> translate <0, 28, 0> }
+    object { planet(SummerSky) scale <1.2, 1.2, 1.2> translate <0, 36.5, 0> }
+    object { planet(Blue) scale <1.2, 1.2, 1.2> translate <0, 42.5, 0> }
+    object { planetStick }
     translate <0, -25, 0>
     rotate 20 * z
     rotate 360 * clock * y
