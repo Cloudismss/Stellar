@@ -11,7 +11,7 @@ This project is meant to serve as a template for automating POV-Ray build proces
 ## Step 1 - Configuration - `scripts/build.conf`
 
 - Change the `OUTPUT_FILE_NAME` variable to set the output file name
-- Customize the output directory with the `OUTPUT_DIR` variable.
+- Customize the output directory with the `OUTPUT_DIR` variable
 - Adjust the output resolution using `OUTPUT_W` and `OUTPUT_H`
 - If utilizing the Docker option in Step 2:
   - Choose whether or not to build the provided `Dockerfile` by setting the `BUILD_IMAGE` variable
