@@ -22,11 +22,13 @@ fi
 echo "--- Running generation script inside Docker ---"
 chmod +x "scripts/gif.sh" "scripts/png.sh"
 docker run --rm -v "$PWD:/source" -v "$PWD/$OUTPUT_DIR:/output" -e OUTPUT_DIR="/output" "$IMAGE_NAME" /bin/sh -c '
-  if ls *.ini >/dev/null 2>&1; then
-    echo "--- generating GIF ---"
+  source scripts/build.conf
+  if [ -f "$OUTPUT_FILE_NAME.ini" ]; then
+    echo "--- Generating GIF ---"
     scripts/gif.sh
-  else
-    echo "--- generating PNG ---"
+  fi
+  if [ -f "$OUTPUT_FILE_NAME.pov" ]; then
+    echo "--- Generating PNG ---"
     scripts/png.sh
   fi
 '

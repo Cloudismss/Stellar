@@ -32,7 +32,12 @@ jobs:
           source scripts/build.conf
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add $OUTPUT_DIR/*.gif $OUTPUT_DIR/*.png
+          if [ -f "$OUTPUT_DIR/$OUTPUT_FILE_NAME.gif" ]; then
+            git add "$OUTPUT_DIR/$OUTPUT_FILE_NAME.gif"
+          fi
+          if [ -f "$OUTPUT_DIR/$OUTPUT_FILE_NAME.png" ]; then
+            git add "$OUTPUT_DIR/$OUTPUT_FILE_NAME.png"
+          fi
           if ! git diff --staged --quiet; then
             git commit -m "CD - Render task"
             git push
