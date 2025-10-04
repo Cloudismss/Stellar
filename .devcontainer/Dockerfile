@@ -28,7 +28,7 @@ RUN apk add --no-cache --virtual .build-deps \
 		POVCONF=/etc/povray/3.7/povray.conf \
 		--prefix=/usr/local \
 		--sysconfdir=/etc && \
-	make install DESTDIR=/povray/dist && \
+	make install DESTDIR=/povray/out && \
 	apk del .build-deps && \
 	rm -rf /var/cache/apk/*
 
@@ -37,7 +37,7 @@ RUN apk add --no-cache --virtual .build-deps \
 FROM alpine:latest
 
 # Copy the compiled POV-Ray binary and assets from the builder stage
-COPY --from=builder /povray/dist/ /
+COPY --from=builder /povray/out/ /
 
 RUN apk add --no-cache --virtual .runtime-deps \
 	# Add runtime dependencies
