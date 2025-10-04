@@ -28,10 +28,12 @@ This project is meant to serve as a template for automating POV-Ray build proces
 
 - Optionally build and run a VSCode or GitHub Codespace container using the provided `devcontainer.json`
 - `chmod +x scripts/gif.sh scripts/png.sh`
-- `scripts/gif.sh` to generate a .gif from an .ini file
-- `scripts/png.sh` to generate a .png from a .pov file
+- `scripts/gif.sh` to generate a `.gif` from an `.ini` file
+- `scripts/png.sh` to generate a `.png` from a `.pov` file
 - Output files will be placed in the directory specified by `OUTPUT_DIR` in `scripts/build.conf`.
 
-## Step 3 (Optional) - Enable GitHub Actions
+## Step 2 (Option C) - Building in the Cloud with GitHub Actions
 
 - Activate Actions on your GitHub Repository `Actions` page
+- The build action will run when any `.pov` or `.ini` file is modified in a commit
+- The build action can manually be triggered via `Actions -> Build POV-Ray Image -> Run workflow`
