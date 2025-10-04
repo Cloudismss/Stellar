@@ -10,6 +10,7 @@ FILE_NAME="Stellar"
 source "$(dirname "$0")/build.conf"
 
 echo "--- Cleaning up build artifacts ---"
+mkdir -p images
 rm -f images/*.png
 rm -f $FILE_NAME.png
 rm -f $FILE_NAME.gif
