@@ -1,6 +1,4 @@
 {
 	"name": "POV-Ray Environment",
-	"build": {
-		"dockerfile": "Dockerfile"
-	}
+	"image": "cloudisms/povray:latest"
 }
