@@ -14,7 +14,7 @@ povray $OUTPUT_FILE_NAME.ini \
   +FN \
   Output_File_Name=$OUTPUT_DIR/images/$OUTPUT_FILE_NAME-
 
-echo "--- Generating gif with ffmpeg---"
+echo "--- Generating gif with ffmpeg ---"
 ffmpeg -y -framerate 24 -i $OUTPUT_DIR/images/$OUTPUT_FILE_NAME-%02d.png -filter_complex "[0:v] palettegen [p]; [0:v][p] paletteuse" $OUTPUT_DIR/$OUTPUT_FILE_NAME.gif
 
 echo "--- $OUTPUT_DIR/$OUTPUT_FILE_NAME.gif created ---"
