@@ -2,7 +2,7 @@
 
 A raytraced Computer Graphics animation built in [POV-Ray](https://www.povray.org/).
 
-![Stellar](./out/Stellar.gif?)
+![Stellar](./out/Stellar.gif)
 
 # Project Template
 
