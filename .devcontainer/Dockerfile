@@ -41,7 +41,7 @@ COPY --from=builder /povray/out/ /
 
 RUN apk add --no-cache --virtual .runtime-deps \
 	# Add runtime dependencies
-	boost zlib libpng tiff sdl2 imath openexr ffmpeg && \
+	boost zlib libpng tiff sdl2 imath openexr ffmpeg git && \
 	# Remove the default scenes to save space
 	rm -rf /usr/local/share/povray-3.7/scenes && \
 	# Create directories for mounting source and output
