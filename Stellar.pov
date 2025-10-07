@@ -163,5 +163,5 @@ union {
 // ----------------------------------------------------
 
 object { stars }
-//object { table }
+object { table }
 object { stellar translate <0, -2, 0> }
