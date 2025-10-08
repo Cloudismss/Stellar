@@ -53,5 +53,5 @@ jobs:
 
       - name: Purge README Cache
         run: |
-          curl -s https://github.com/Cloudismss/Stellar/blob/master/README.md > readme.html
+          curl -s "https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/README.md" > readme.html
           grep -Eo '<img src="[^"]+"' readme.html | grep camo | grep -Eo 'https[^"]+' | xargs -I {} curl -w "\n" -s -X PURGE {}
