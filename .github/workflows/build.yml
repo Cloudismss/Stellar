@@ -46,3 +46,8 @@ jobs:
           else
             echo "No changes to commit."
           fi
+
+      - name: Purge README Cache
+        run: |
+          curl -s https://github.com/Cloudismss/Stellar/blob/master/README.md > readme.html
+          grep -Eo '<img src="[^"]+"' readme.html | grep camo | grep -Eo 'https[^"]+' | xargs -I {} curl -w "\n" -s -X PURGE {}
